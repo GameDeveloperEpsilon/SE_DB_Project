@@ -3,8 +3,9 @@ import java.sql.*;
 public class DBHandler {
 
     public String selectFromTableSpring(int CRN) {
-        String url = "jdbc:mysql://localhost:3306/test_stuff";
         UserFile userFile = new UserFile();
+        String url = String.format("jdbc:mysql://%s:%d/%s",
+                userFile.server, userFile.port, userFile.dbName);
         String username = userFile.username;
         String password = userFile.password;
         try (Connection con = DriverManager.getConnection(url, username, password);

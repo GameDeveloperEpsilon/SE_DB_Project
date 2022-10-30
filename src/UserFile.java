@@ -5,6 +5,9 @@ import org.json.simple.parser.ParseException;
 import java.io.*;
 
 public class UserFile {
+    public String server;
+    int port;
+    public String dbName;
     public String username;
     public String password;
     private String filePath = "./src/user.json";
@@ -13,6 +16,9 @@ public class UserFile {
         try (FileReader fileReader = new FileReader(filePath)) {
             Object p = new JSONParser().parse(fileReader);
             JSONObject jo = (JSONObject) p;
+            server = (String) jo.get("server");
+            port = Integer.parseInt((String) jo.get("port"));
+            dbName = (String) jo.get("databaseName");
             username = (String) jo.get("username");
             password = (String) jo.get("password");
 

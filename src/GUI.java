@@ -4,8 +4,6 @@ import java.awt.*;
 public class GUI {
     DBHandler dbHandler;
     JFrame window;
-    JPanel inputPanel;
-    JTextField first_name, last_name, age;
     JScrollPane scrollPane;
     JTextArea output;
 
