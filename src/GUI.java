@@ -23,6 +23,12 @@ public class GUI {
     }
 
     private void createComponents() {
+        JLabel attributeNames = new JLabel("Row | Subject Prefix | Course Number | Section Number |" +
+                " Type of Instruction | Semester Credit Hours | Students NOT Affected By State Funding");
+        JScrollPane attributeNamePane = new JScrollPane(attributeNames);
+        attributeNamePane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        window.getContentPane().add(BorderLayout.NORTH, attributeNamePane);
+
         output = new JTextArea();
         output.setEditable(false);
 
@@ -33,7 +39,7 @@ public class GUI {
         window.getContentPane().add(BorderLayout.CENTER, scrollPane);
 
         JPanel inputPanel = new JPanel();
-        JLabel prompt = new JLabel("CRN ");
+        JLabel prompt = new JLabel("Enter CRN: ");
         JTextField CRNField = new JTextField(10);
         JButton submit = new JButton("Get Entries");
         submit.addActionListener(e -> {
@@ -43,7 +49,7 @@ public class GUI {
                 int CRN = Integer.parseInt(CRNField.getText());
                 output.setText(dbHandler.selectFromTableSpring(CRN));
             } catch (NumberFormatException ex) {
-                output.setText(dbHandler.selectFromTableSpring(-1));
+                output.setText(dbHandler.selectFromTableSpring(-1));  // Provide Default Value
             }
         });
         inputPanel.add(prompt);
