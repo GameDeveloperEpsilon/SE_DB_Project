@@ -41,7 +41,7 @@ public class GUI {
         JTextField CRNField = new JTextField(10);
         JButton submit = new JButton("Get Entries");
         submit.addActionListener(e -> {
-            System.out.println("Testing...");
+            //System.out.println("Testing...");
 
             try {
                 int CRN = Integer.parseInt(CRNField.getText());

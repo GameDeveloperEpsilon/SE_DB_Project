@@ -11,13 +11,13 @@ public class DBHandler {
         try (Connection con = DriverManager.getConnection(url, username, password);
              Statement statement = con.createStatement()) {
 
-            System.out.println("Connection Established");
+            //System.out.println("Connection Established");
 
             String select;
             if (CRN == -1) {
-                select = "SELECT * FROM import_test.spring;";
+                select = "SELECT * FROM spring_2021.spring;";
             } else {
-                select = "SELECT * FROM import_test.spring WHERE section_number=" + CRN + ';';
+                select = "SELECT * FROM spring_2021.spring WHERE section_number=" + CRN + ';';
             }
 
 
