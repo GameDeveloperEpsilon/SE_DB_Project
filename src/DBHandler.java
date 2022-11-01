@@ -5,9 +5,9 @@ public class DBHandler {
     public String selectFromTableSpring(int CRN) {
         UserFile userFile = new UserFile();
         String url = String.format("jdbc:mysql://%s:%d/%s",
-                userFile.server, userFile.port, userFile.dbName);
-        String username = userFile.username;
-        String password = userFile.password;
+                userFile.getServer(), userFile.getPort(), userFile.getDbName());
+        String username = userFile.getUsername();
+        String password = userFile.getPassword();
         try (Connection con = DriverManager.getConnection(url, username, password);
              Statement statement = con.createStatement()) {
 
@@ -55,6 +55,7 @@ public class DBHandler {
             return stringBuilder.toString();
 
         } catch (SQLException e) {
+
             throw new RuntimeException(e);
         }
     }
