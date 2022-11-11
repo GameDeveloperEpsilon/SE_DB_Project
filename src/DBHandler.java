@@ -25,6 +25,12 @@ public class DBHandler {
 
             StringBuilder stringBuilder = new StringBuilder();
             while(resultSet.next()){
+
+                String creditHours = resultSet.getString("Semester_Credit_Hour_Value");
+                if (creditHours.length() > 2) {
+                    creditHours = creditHours.substring(0, 2);
+                }
+
                 stringBuilder.append(resultSet.getRow()).append(" ")
                         //.append(resultSet.getString("Record_Code")).append(' ')
                         //.append(resultSet.getString("Institution_Code")).append(' ')
@@ -32,7 +38,7 @@ public class DBHandler {
                         .append(resultSet.getString("Course_Number")).append(' ')
                         .append(resultSet.getString("Section_Number")).append(' ')
                         .append(resultSet.getString("Type_Instruction")).append(' ')
-                        .append(resultSet.getString("Semester_Credit_Hour_Value")).append(' ')
+                        .append(creditHours).append(' ')
                         //.append(resultSet.getString("Location_Code")).append(' ')
                         //.append(resultSet.getString("Other_Higher_Education_Site")).append(' ')
                         //.append(resultSet.getString("Composite_Classes_Code")).append(' ')
