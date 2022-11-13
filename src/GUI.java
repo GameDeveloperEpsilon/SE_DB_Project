@@ -21,6 +21,17 @@ public class GUI {
     }
 
     private void createComponents() {
+
+        //JMenuItem editConnection = new JMenuItem("Edit");
+        //editConnection.addActionListener(e -> {
+        //    dbHandler.userFile.populateUserFile();
+        //});
+        //JMenu connection = new JMenu("Connection");
+        //connection.add(editConnection);
+        //JMenuBar menuBar = new JMenuBar();
+        //menuBar.add(connection);
+        //window.getContentPane().add(BorderLayout.NORTH, menuBar);
+
         JLabel attributeNames = new JLabel("Row | Subject Prefix | Course Number | Section Number |" +
                 " Type of Instruction | Semester Credit Hours | Students NOT Affected By State Funding");
         JScrollPane attributeNamePane = new JScrollPane(attributeNames);
@@ -34,6 +45,9 @@ public class GUI {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 
+        //JPanel dataTable = new JPanel();
+        //dataTable.add(BorderLayout.NORTH, attributeNamePane);
+        //dataTable.add(BorderLayout.CENTER, scrollPane);
         window.getContentPane().add(BorderLayout.CENTER, scrollPane);
 
         JPanel inputPanel = new JPanel();
@@ -41,18 +55,19 @@ public class GUI {
         JTextField CRNField = new JTextField(10);
         JButton submit = new JButton("Get Entries");
         submit.addActionListener(e -> {
-            //System.out.println("Testing...");
-
             try {
                 int CRN = Integer.parseInt(CRNField.getText());
-                output.setText(dbHandler.selectFromTableSpring(CRN));
+                output.setText(dbHandler.selectFromTableSpring(submit, CRN));
             } catch (NumberFormatException ex) {
-                output.setText(dbHandler.selectFromTableSpring(-1));  // Provide Default Value
+                output.setText(dbHandler.selectFromTableSpring(submit, -1));  // Provide Default Value
             }
         });
+        JButton editConnection = new JButton("Edit Connection");
+        editConnection.addActionListener(e -> dbHandler.userFile.populateUserFile());
         inputPanel.add(prompt);
         inputPanel.add(CRNField);
         inputPanel.add(submit);
+        inputPanel.add(editConnection);
         window.getContentPane().add(BorderLayout.SOUTH, inputPanel);
     }
 }

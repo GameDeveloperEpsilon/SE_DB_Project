@@ -55,7 +55,7 @@ public class UserFile {
         }
     }
 
-    private void populateUserFile() {
+    public void populateUserFile() {
         try (FileWriter writer = new FileWriter(fileLocation)) {
             // Get Fields from user
             server = JOptionPane.showInputDialog("Enter server name ");

@@ -1,17 +1,18 @@
+import javax.swing.*;
 import java.sql.*;
 
 public class DBHandler {
 
-    public String selectFromTableSpring(int CRN) {
-        UserFile userFile = new UserFile();
+    public UserFile userFile = new UserFile();
+
+    public String selectFromTableSpring(JButton submitButton, int CRN) {
+
         String url = String.format("jdbc:mysql://%s:%d/%s",
                 userFile.getServer(), userFile.getPort(), userFile.getDbName());
         String username = userFile.getUsername();
         String password = userFile.getPassword();
         try (Connection con = DriverManager.getConnection(url, username, password);
              Statement statement = con.createStatement()) {
-
-            //System.out.println("Connection Established");
 
             String select;
             if (CRN == -1) {
@@ -61,8 +62,9 @@ public class DBHandler {
             return stringBuilder.toString();
 
         } catch (SQLException e) {
-
-            throw new RuntimeException(e);
+            JOptionPane.showMessageDialog(submitButton, "Could not connect to the database. " +
+                    "Try changing the connection settings.");
+            return "";
         }
     }
 
