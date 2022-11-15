@@ -31,6 +31,15 @@ public class DBHandler {
                 if (creditHours.length() > 2) {
                     creditHours = creditHours.substring(0, 2);
                 }
+                String totalEnrollment = resultSet.getString("Students_NOT_Affected_By_State_Funding");
+                if (totalEnrollment.length() == 15) {
+                    int sum = Integer.parseInt(totalEnrollment.substring(0, 3));
+                    sum += Integer.parseInt(totalEnrollment.substring(3, 6));
+                    sum += Integer.parseInt(totalEnrollment.substring(6, 9));
+                    sum += Integer.parseInt(totalEnrollment.substring(9, 12));
+                    sum += Integer.parseInt(totalEnrollment.substring(12, 15));
+                    totalEnrollment = String.valueOf(sum);
+                }
 
                 stringBuilder.append(resultSet.getRow()).append(" ")
                         //.append(resultSet.getString("Record_Code")).append(' ')
@@ -47,7 +56,7 @@ public class DBHandler {
                         //.append(resultSet.getString("Off_Campus_Location")).append(' ')
                         //.append(resultSet.getString("Instructor_Code")).append(' ')
                         //.append(resultSet.getString("Responsibility_Factor")).append(' ')
-                        .append(resultSet.getString("Students_NOT_Affected_By_State_Funding")).append(' ')
+                        .append(totalEnrollment).append(' ')
                         //.append(resultSet.getString("Semester")).append(' ')
                         //.append(resultSet.getString("Year")).append(' ')
                         //.append(resultSet.getString("Students_Who_Exceed_State_Funding")).append(' ')

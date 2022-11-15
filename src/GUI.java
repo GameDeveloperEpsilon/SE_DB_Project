@@ -33,7 +33,7 @@ public class GUI {
         //window.getContentPane().add(BorderLayout.NORTH, menuBar);
 
         JLabel attributeNames = new JLabel("Row | Subject Prefix | Course Number | Section Number |" +
-                " Type of Instruction | Semester Credit Hours | Students NOT Affected By State Funding");
+                " Type of Instruction | Semester Credit Hours | Total Enrollment");
         JScrollPane attributeNamePane = new JScrollPane(attributeNames);
         attributeNamePane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         window.getContentPane().add(BorderLayout.NORTH, attributeNamePane);
