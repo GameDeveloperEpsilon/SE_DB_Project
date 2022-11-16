@@ -15,43 +15,41 @@ public class UserFile {
     private String username;
     private String password;
 
-    public UserFile() {
+    public UserFile(JFrame context) {
         try (FileReader fileReader = new FileReader(fileLocation)) {
             Object p = new JSONParser().parse(fileReader);
             JSONObject jo = (JSONObject) p;
             loadProperties(jo);
 
         } catch (FileNotFoundException e) {
-            System.out.println("Missing user.json");
+            JOptionPane.showMessageDialog(context, "Missing user.json");
             try {
-                System.out.println("Making Directory");
+                JOptionPane.showMessageDialog(context, "Making Directory");
                 File directory = new File(filePath);
                 boolean made = directory.mkdirs();
                 if (made) {
-                    System.out.println("I have been made");
+                    JOptionPane.showMessageDialog(context, "I have been made");
                 }
                 if (directory.exists()) {
-                    System.out.println("I exist");
+                    JOptionPane.showMessageDialog(context, "I exist");
                 } else {
-                    System.out.println("I do not exist");
+                    JOptionPane.showMessageDialog(context, "I do not exist");
                 }
 
-                System.out.println("Making File");
+                JOptionPane.showMessageDialog(context, "Making File");
                 File file = new File(fileLocation);
                 file.createNewFile();
 
                 populateUserFile();
-                System.out.println("File Made");
+                JOptionPane.showMessageDialog(context, "File Made");
 
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
         } catch (IOException e) {
-            System.out.println("Error reading user.json");
-            //throw new RuntimeException(e);
+            JOptionPane.showMessageDialog(context, "Error reading user.json");
         } catch (ParseException e) {
-            System.out.println("Error parsing user.json  The file is not in JSON format.");
-            //throw new RuntimeException(e);
+            JOptionPane.showMessageDialog(context, "Error parsing user.json  The file is not in JSON format.");
         }
     }
 

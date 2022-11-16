@@ -1,23 +1,23 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class GUI {
+public class GUI extends JFrame {
     DBHandler dbHandler;
-    JFrame window;
     JScrollPane scrollPane;
     JTextArea output;
+    ActionSelector actionSelector;
 
     public GUI(DBHandler dbHandler) {
         this.dbHandler = dbHandler;
-        window = new JFrame("PT Database GUI");
-        window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        window.setSize(600, 500);
-        window.setResizable(false);
-        window.setLocationRelativeTo(null);
+        setTitle("PT Database GUI");
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setSize(600, 500);
+        setResizable(false);
+        setLocationRelativeTo(null);
 
         createComponents();
 
-        window.setVisible(true);
+        setVisible(true);
     }
 
     private void createComponents() {
@@ -33,7 +33,7 @@ public class GUI {
                 " Type of Instruction | Semester Credit Hours | Total Enrollment");
         JScrollPane attributeNamePane = new JScrollPane(attributeNames);
         attributeNamePane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        window.getContentPane().add(BorderLayout.NORTH, attributeNamePane);
+        getContentPane().add(BorderLayout.NORTH, attributeNamePane);
     }
 
     private void createOutputArea() {
@@ -44,14 +44,12 @@ public class GUI {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 
-        window.getContentPane().add(BorderLayout.CENTER, scrollPane);
+        getContentPane().add(BorderLayout.CENTER, scrollPane);
     }
 
     private void createControlBar() {
 
-        //JComboBox<JButton> actionSelector = new JComboBox<>();
-        //actionSelector.add();
-
+        actionSelector = new ActionSelector();
 
         JPanel inputPanel = new JPanel();
         JLabel prompt = new JLabel("Enter CRN: ");
@@ -67,11 +65,17 @@ public class GUI {
         });
         JButton editConnection = new JButton("Edit Connection");
         editConnection.addActionListener(e -> dbHandler.userFile.populateUserFile());
+        inputPanel.add(actionSelector);
         inputPanel.add(prompt);
         inputPanel.add(CRNField);
         inputPanel.add(submit);
         inputPanel.add(editConnection);
-        window.getContentPane().add(BorderLayout.SOUTH, inputPanel);
+        getContentPane().add(BorderLayout.SOUTH, inputPanel);
     }
+
+    public void setDbHandler(DBHandler dbHandler) {
+        this.dbHandler = dbHandler;
+    }
+
 
 }

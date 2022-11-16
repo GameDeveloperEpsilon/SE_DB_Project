@@ -3,7 +3,11 @@ import java.sql.*;
 
 public class DBHandler {
 
-    public UserFile userFile = new UserFile();
+    public UserFile userFile;
+
+    public DBHandler(JFrame context) {
+        userFile = new UserFile(context);
+    }
 
     public void insertRecordIntoTableSpring(JButton trigger) {
         JOptionPane.showMessageDialog(trigger, "Inserted");
