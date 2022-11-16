@@ -5,6 +5,18 @@ public class DBHandler {
 
     public UserFile userFile = new UserFile();
 
+    public void insertRecordIntoTableSpring(JButton trigger) {
+        JOptionPane.showMessageDialog(trigger, "Inserted");
+    }
+
+    public void updateRecordInTableSpring(JButton trigger) {
+        JOptionPane.showMessageDialog(trigger, "Updated");
+    }
+
+    public void deleteRecordInTableSpring(JButton trigger) {
+        JOptionPane.showMessageDialog(trigger, "Deleted");
+    }
+
     public String selectFromTableSpring(JButton submitButton, int CRN) {
 
         String url = String.format("jdbc:mysql://%s:%d/%s",
@@ -16,9 +28,9 @@ public class DBHandler {
 
             String select;
             if (CRN == -1) {
-                select = "SELECT * FROM spring_2021.spring;";
+                select = "SELECT * FROM " + userFile.getDbName() +".spring;";
             } else {
-                select = "SELECT * FROM spring_2021.spring WHERE section_number=" + CRN + ';';
+                select = "SELECT * FROM " + userFile.getDbName() +".spring WHERE section_number=" + CRN + ';';
             }
 
 

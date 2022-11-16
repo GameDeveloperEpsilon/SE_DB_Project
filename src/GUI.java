@@ -22,22 +22,21 @@ public class GUI {
 
     private void createComponents() {
 
-        //JMenuItem editConnection = new JMenuItem("Edit");
-        //editConnection.addActionListener(e -> {
-        //    dbHandler.userFile.populateUserFile();
-        //});
-        //JMenu connection = new JMenu("Connection");
-        //connection.add(editConnection);
-        //JMenuBar menuBar = new JMenuBar();
-        //menuBar.add(connection);
-        //window.getContentPane().add(BorderLayout.NORTH, menuBar);
+        createColumnLabels();
+        createOutputArea();
+        createControlBar();
 
+    }
+
+    private void createColumnLabels() {
         JLabel attributeNames = new JLabel("Row | Subject Prefix | Course Number | Section Number |" +
                 " Type of Instruction | Semester Credit Hours | Total Enrollment");
         JScrollPane attributeNamePane = new JScrollPane(attributeNames);
         attributeNamePane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         window.getContentPane().add(BorderLayout.NORTH, attributeNamePane);
+    }
 
+    private void createOutputArea() {
         output = new JTextArea();
         output.setEditable(false);
 
@@ -45,10 +44,14 @@ public class GUI {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 
-        //JPanel dataTable = new JPanel();
-        //dataTable.add(BorderLayout.NORTH, attributeNamePane);
-        //dataTable.add(BorderLayout.CENTER, scrollPane);
         window.getContentPane().add(BorderLayout.CENTER, scrollPane);
+    }
+
+    private void createControlBar() {
+
+        //JComboBox<JButton> actionSelector = new JComboBox<>();
+        //actionSelector.add();
+
 
         JPanel inputPanel = new JPanel();
         JLabel prompt = new JLabel("Enter CRN: ");
@@ -70,4 +73,5 @@ public class GUI {
         inputPanel.add(editConnection);
         window.getContentPane().add(BorderLayout.SOUTH, inputPanel);
     }
+
 }
