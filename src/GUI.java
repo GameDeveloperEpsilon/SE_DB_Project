@@ -1,11 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
-public class GUI extends JFrame {
+public class GUI extends JFrame  {
     DBHandler dbHandler;
     JScrollPane scrollPane;
     JTextArea output;
-    ActionSelector actionSelector;
+    JComboBox<String> actionSelector;
 
     public GUI(DBHandler dbHandler) {
         this.dbHandler = dbHandler;
@@ -49,7 +50,30 @@ public class GUI extends JFrame {
 
     private void createControlBar() {
 
-        actionSelector = new ActionSelector();
+        String[] actions = {"SELECT", "INSERT", "UPDATE", "DELETE"};
+        actionSelector = new JComboBox<>(actions);
+        actionSelector.addItemListener(e -> {
+            // if the state combobox is changed
+
+            if (e.getSource() == actionSelector) {
+                if (Objects.equals(actionSelector.getSelectedItem(), "SELECT")) {
+                    JOptionPane.showMessageDialog(this, "Selecting");
+                }
+                else if (Objects.equals(actionSelector.getSelectedItem(), "INSERT")) {
+                    JOptionPane.showMessageDialog(this, "Inserting");
+                }
+                else if (Objects.equals(actionSelector.getSelectedItem(), "UPDATE")) {
+                    JOptionPane.showMessageDialog(this, "Updating");
+                }
+                else if (Objects.equals(actionSelector.getSelectedItem(), "DELETE")) {
+                    JOptionPane.showMessageDialog(this, "Deleting");
+                }
+                else {
+                    JOptionPane.showMessageDialog(this, "Unknown Action");
+                }
+
+            }
+        });
 
         JPanel inputPanel = new JPanel();
         JLabel prompt = new JLabel("Enter CRN: ");
@@ -76,6 +100,5 @@ public class GUI extends JFrame {
     public void setDbHandler(DBHandler dbHandler) {
         this.dbHandler = dbHandler;
     }
-
 
 }
