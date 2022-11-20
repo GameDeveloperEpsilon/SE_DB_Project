@@ -2,11 +2,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
-public class GUI extends JFrame  {
+public class GUI extends JFrame {
     DBHandler dbHandler;
     JScrollPane scrollPane;
     JTextArea output;
     JComboBox<String> actionSelector;
+    String actionToExecute = "SELECT";
 
     public GUI(DBHandler dbHandler) {
         this.dbHandler = dbHandler;
@@ -58,20 +59,24 @@ public class GUI extends JFrame  {
             if (e.getSource() == actionSelector) {
                 if (Objects.equals(actionSelector.getSelectedItem(), "SELECT")) {
                     JOptionPane.showMessageDialog(this, "Selecting");
+                    actionToExecute = "SELECT";
                 }
                 else if (Objects.equals(actionSelector.getSelectedItem(), "INSERT")) {
                     JOptionPane.showMessageDialog(this, "Inserting");
+                    actionToExecute = "INSERT";
                 }
                 else if (Objects.equals(actionSelector.getSelectedItem(), "UPDATE")) {
                     JOptionPane.showMessageDialog(this, "Updating");
+                    actionToExecute = "UPDATE";
                 }
                 else if (Objects.equals(actionSelector.getSelectedItem(), "DELETE")) {
                     JOptionPane.showMessageDialog(this, "Deleting");
+                    actionToExecute = "DELETE";
                 }
                 else {
                     JOptionPane.showMessageDialog(this, "Unknown Action");
+                    actionToExecute = "SELECT";
                 }
-
             }
         });
 
@@ -81,10 +86,19 @@ public class GUI extends JFrame  {
         JButton submit = new JButton("Get Entries");
         submit.addActionListener(e -> {
             try {
-                int CRN = Integer.parseInt(CRNField.getText());
-                output.setText(dbHandler.selectFromTableSpring(submit, CRN));
+                if (actionToExecute.equals("SELECT")) {
+                    int CRN = Integer.parseInt(CRNField.getText());
+                    output.setText(dbHandler.selectFromTableSpring(this, CRN));
+                } else if (actionToExecute.equals("INSERT")) {
+                    dbHandler.insertRecordIntoTableSpring(this);
+                } else if (actionToExecute.equals("UPDATE")) {
+                    dbHandler.updateRecordInTableSpring(this);
+                } else if (actionToExecute.equals("DELETE")) {
+                    dbHandler.deleteRecordInTableSpring(this);
+                }
+
             } catch (NumberFormatException ex) {
-                output.setText(dbHandler.selectFromTableSpring(submit, -1));  // Provide Default Value
+                output.setText(dbHandler.selectFromTableSpring(this, -1));  // Provide Default Value
             }
         });
         JButton editConnection = new JButton("Edit Connection");

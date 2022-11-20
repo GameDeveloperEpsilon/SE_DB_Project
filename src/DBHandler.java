@@ -9,19 +9,19 @@ public class DBHandler {
         userFile = new UserFile(context);
     }
 
-    public void insertRecordIntoTableSpring(JButton trigger) {
+    public void insertRecordIntoTableSpring(JFrame trigger) {
         JOptionPane.showMessageDialog(trigger, "Inserted");
     }
 
-    public void updateRecordInTableSpring(JButton trigger) {
+    public void updateRecordInTableSpring(JFrame trigger) {
         JOptionPane.showMessageDialog(trigger, "Updated");
     }
 
-    public void deleteRecordInTableSpring(JButton trigger) {
+    public void deleteRecordInTableSpring(JFrame trigger) {
         JOptionPane.showMessageDialog(trigger, "Deleted");
     }
 
-    public String selectFromTableSpring(JButton submitButton, int CRN) {
+    public String selectFromTableSpring(JFrame trigger, int CRN) {
 
         String url = String.format("jdbc:mysql://%s:%d/%s",
                 userFile.getServer(), userFile.getPort(), userFile.getDbName());
@@ -87,7 +87,7 @@ public class DBHandler {
             return stringBuilder.toString();
 
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(submitButton, "Could not connect to the database. " +
+            JOptionPane.showMessageDialog(trigger, "Could not connect to the database. " +
                     "Try changing the connection settings.");
             return "";
         }
