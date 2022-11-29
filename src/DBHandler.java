@@ -9,16 +9,85 @@ public class DBHandler {
         userFile = new UserFile(context);
     }
 
-    public void insertRecordIntoTableSpring(JFrame trigger) {
-        JOptionPane.showMessageDialog(trigger, "Inserted");
+    public String insertRecordIntoTableSpring(JFrame trigger, int CRN) {
+        String url = String.format("jdbc:mysql://%s:%d/%s",
+                userFile.getServer(), userFile.getPort(), userFile.getDbName());
+        String username = userFile.getUsername();
+        String password = userFile.getPassword();
+        try (Connection con = DriverManager.getConnection(url, username, password);
+             Statement statement = con.createStatement()) {
+
+            String select;
+            if (CRN == -1) {
+                select = "SELECT * FROM " + userFile.getDbName() +".spring;";
+            } else {
+                select = "SELECT * FROM " + userFile.getDbName() +".spring WHERE section_number=" + CRN + ';';
+            }
+
+            ResultSet resultSet = statement.executeQuery(select);
+
+            return "Inserted";
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(trigger, "Could not connect to the database. " +
+                    "Try changing the connection settings.");
+            return "Not Inserted";
+        }
+        //JOptionPane.showMessageDialog(trigger, "Inserted");
     }
 
-    public void updateRecordInTableSpring(JFrame trigger) {
-        JOptionPane.showMessageDialog(trigger, "Updated");
+    public String updateRecordInTableSpring(JFrame trigger, int CRN) {
+        String url = String.format("jdbc:mysql://%s:%d/%s",
+                userFile.getServer(), userFile.getPort(), userFile.getDbName());
+        String username = userFile.getUsername();
+        String password = userFile.getPassword();
+        try (Connection con = DriverManager.getConnection(url, username, password);
+             Statement statement = con.createStatement()) {
+
+            String select;
+            if (CRN == -1) {
+                select = "SELECT * FROM " + userFile.getDbName() +".spring;";
+            } else {
+                select = "SELECT * FROM " + userFile.getDbName() +".spring WHERE section_number=" + CRN + ';';
+            }
+
+            ResultSet resultSet = statement.executeQuery(select);
+
+            return "Updated";
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(trigger, "Could not connect to the database. " +
+                    "Try changing the connection settings.");
+            return "Not Updated";
+        }
+        //JOptionPane.showMessageDialog(trigger, "Updated");
     }
 
-    public void deleteRecordInTableSpring(JFrame trigger) {
-        JOptionPane.showMessageDialog(trigger, "Deleted");
+    public String deleteRecordInTableSpring(JFrame trigger, int CRN) {
+        String url = String.format("jdbc:mysql://%s:%d/%s",
+                userFile.getServer(), userFile.getPort(), userFile.getDbName());
+        String username = userFile.getUsername();
+        String password = userFile.getPassword();
+        try (Connection con = DriverManager.getConnection(url, username, password);
+             Statement statement = con.createStatement()) {
+
+            String select;
+            if (CRN == -1) {
+                select = "SELECT * FROM " + userFile.getDbName() +".spring;";
+            } else {
+                select = "SELECT * FROM " + userFile.getDbName() +".spring WHERE section_number=" + CRN + ';';
+            }
+
+            ResultSet resultSet = statement.executeQuery(select);
+
+            return "Deleted";
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(trigger, "Could not connect to the database. " +
+                    "Try changing the connection settings.");
+            return "Not Deleted";
+        }
+        //JOptionPane.showMessageDialog(trigger, "Deleted");
     }
 
     public String selectFromTableSpring(JFrame trigger, int CRN) {

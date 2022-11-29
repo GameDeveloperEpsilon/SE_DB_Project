@@ -11,23 +11,23 @@ public class GUI extends JFrame {
 
     public GUI(DBHandler dbHandler) {
         this.dbHandler = dbHandler;
+        windowSetup();
+        createComponents();
+        setVisible(true);
+    }
+
+    private void windowSetup() {
         setTitle("PT Database GUI");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(600, 500);
         setResizable(false);
         setLocationRelativeTo(null);
-
-        createComponents();
-
-        setVisible(true);
     }
 
     private void createComponents() {
-
         createColumnLabels();
         createOutputArea();
         createControlBar();
-
     }
 
     private void createColumnLabels() {
@@ -58,19 +58,19 @@ public class GUI extends JFrame {
 
             if (e.getSource() == actionSelector) {
                 if (Objects.equals(actionSelector.getSelectedItem(), "SELECT")) {
-                    JOptionPane.showMessageDialog(this, "Selecting");
+                    //JOptionPane.showMessageDialog(this, "Selecting");
                     actionToExecute = "SELECT";
                 }
                 else if (Objects.equals(actionSelector.getSelectedItem(), "INSERT")) {
-                    JOptionPane.showMessageDialog(this, "Inserting");
+                    //JOptionPane.showMessageDialog(this, "Inserting");
                     actionToExecute = "INSERT";
                 }
                 else if (Objects.equals(actionSelector.getSelectedItem(), "UPDATE")) {
-                    JOptionPane.showMessageDialog(this, "Updating");
+                    //JOptionPane.showMessageDialog(this, "Updating");
                     actionToExecute = "UPDATE";
                 }
                 else if (Objects.equals(actionSelector.getSelectedItem(), "DELETE")) {
-                    JOptionPane.showMessageDialog(this, "Deleting");
+                    //JOptionPane.showMessageDialog(this, "Deleting");
                     actionToExecute = "DELETE";
                 }
                 else {
@@ -85,21 +85,18 @@ public class GUI extends JFrame {
         JTextField CRNField = new JTextField(10);
         JButton submit = new JButton("Get Entries");
         submit.addActionListener(e -> {
+            int CRN = -1;  // Default Value
             try {
-                if (actionToExecute.equals("SELECT")) {
-                    int CRN = Integer.parseInt(CRNField.getText());
-                    output.setText(dbHandler.selectFromTableSpring(this, CRN));
-                } else if (actionToExecute.equals("INSERT")) {
-                    dbHandler.insertRecordIntoTableSpring(this);
-                } else if (actionToExecute.equals("UPDATE")) {
-                    dbHandler.updateRecordInTableSpring(this);
-                } else if (actionToExecute.equals("DELETE")) {
-                    dbHandler.deleteRecordInTableSpring(this);
-                }
+                 CRN = Integer.parseInt(CRNField.getText());
+            } catch (NumberFormatException ignored) {}
 
-            } catch (NumberFormatException ex) {
-                output.setText(dbHandler.selectFromTableSpring(this, -1));  // Provide Default Value
+            switch (actionToExecute) {
+                case "SELECT" -> output.setText(dbHandler.selectFromTableSpring(this, CRN));
+                case "INSERT" -> output.setText(dbHandler.insertRecordIntoTableSpring(this, CRN));
+                case "UPDATE" -> output.setText(dbHandler.updateRecordInTableSpring(this, CRN));
+                case "DELETE" -> output.setText(dbHandler.deleteRecordInTableSpring(this, CRN));
             }
+
         });
         JButton editConnection = new JButton("Edit Connection");
         editConnection.addActionListener(e -> dbHandler.userFile.populateUserFile());
