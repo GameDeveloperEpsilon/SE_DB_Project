@@ -11,8 +11,10 @@ public class DBHandler {
 
     public String insertRecordIntoTableSpring(JFrame trigger, int CRN) {
 
-        if (isCRNPresentInTableSpring(trigger, CRN))
-            System.out.println("CRN present");
+        if (isCRNPresentInTableSpring(trigger, CRN)) {
+            JOptionPane.showMessageDialog(trigger, "Not Inserted");
+            return "CRN Already Present";
+        }
 
         String url = String.format("jdbc:mysql://%s:%d/%s",
                 userFile.getServer(), userFile.getPort(), userFile.getDbName());
@@ -21,14 +23,15 @@ public class DBHandler {
         try (Connection con = DriverManager.getConnection(url, username, password);
              Statement statement = con.createStatement()) {
 
-            String select;
-            if (CRN == -1) {
-                select = "SELECT * FROM " + userFile.getDbName() +".spring;";
-            } else {
-                select = "SELECT * FROM " + userFile.getDbName() +".spring WHERE section_number=" + CRN + ';';
-            }
+            String prefix = JOptionPane.showInputDialog(trigger, "Enter Subject Prefix");
+            int courseNum = Integer.parseInt(JOptionPane.showInputDialog(trigger, "Enter Course Number"));
+            //int sectionNum = JOptionPane.showInputDialog(trigger, "Enter Section Number");
+            char typeOfInst = JOptionPane.showInputDialog(trigger, "Enter Type of Institution").charAt(0);
+            int creditHours = Integer.parseInt(JOptionPane.showInputDialog(trigger,
+                    "Enter Credit Hour Value as a four digit number without a decimal point"));
 
-            ResultSet resultSet = statement.executeQuery(select);
+            //String INSERT = "INSERT INTO " + userFile.getDbName() + '.' + "spring ()";
+            //ResultSet resultSet = statement.executeQuery(INSERT);
 
             return "Inserted";
 
@@ -36,8 +39,11 @@ public class DBHandler {
             JOptionPane.showMessageDialog(trigger, "Could not connect to the database. " +
                     "Try changing the connection settings.");
             return "Not Inserted";
+        } catch (NumberFormatException numberFormatException) {
+            JOptionPane.showMessageDialog(trigger, "One or More Fields Were Not Integers");
+            return "Not Inserted";
         }
-        //JOptionPane.showMessageDialog(trigger, "Inserted");
+
     }
 
     public String updateRecordInTableSpring(JFrame trigger, int CRN) {
