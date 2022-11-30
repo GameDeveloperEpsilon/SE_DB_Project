@@ -54,8 +54,8 @@ public class GUI extends JFrame {
         String[] actions = {"SELECT", "INSERT", "UPDATE", "DELETE"};
         actionSelector = new JComboBox<>(actions);
         actionSelector.addItemListener(e -> {
-            // if the state combobox is changed
 
+            // if the state combobox is changed
             if (e.getSource() == actionSelector) {
                 if (Objects.equals(actionSelector.getSelectedItem(), "SELECT")) {
                     //JOptionPane.showMessageDialog(this, "Selecting");
@@ -83,7 +83,7 @@ public class GUI extends JFrame {
         JPanel inputPanel = new JPanel();
         JLabel prompt = new JLabel("Enter CRN: ");
         JTextField CRNField = new JTextField(10);
-        JButton submit = new JButton("Get Entries");
+        JButton submit = new JButton("Execute");
         submit.addActionListener(e -> {
             int CRN = -1;  // Default Value
             try {
