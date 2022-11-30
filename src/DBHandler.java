@@ -10,6 +10,10 @@ public class DBHandler {
     }
 
     public String insertRecordIntoTableSpring(JFrame trigger, int CRN) {
+
+        if (isCRNPresentInTableSpring(trigger, CRN))
+            System.out.println("CRN present");
+
         String url = String.format("jdbc:mysql://%s:%d/%s",
                 userFile.getServer(), userFile.getPort(), userFile.getDbName());
         String username = userFile.getUsername();
@@ -106,7 +110,6 @@ public class DBHandler {
                 select = "SELECT * FROM " + userFile.getDbName() +".spring WHERE section_number=" + CRN + ';';
             }
 
-
             ResultSet resultSet = statement.executeQuery(select);
 
             StringBuilder stringBuilder = new StringBuilder();
@@ -153,6 +156,7 @@ public class DBHandler {
                         //.append(resultSet.getString("Teaching_Load_Credit"))
                         .append('\n');
             }
+
             return stringBuilder.toString();
 
         } catch (SQLException e) {
@@ -160,6 +164,12 @@ public class DBHandler {
                     "Try changing the connection settings.");
             return "";
         }
+    }
+
+    public boolean isCRNPresentInTableSpring(JFrame trigger, int CRN) {
+        if (CRN <= 0)
+            return false;
+        else return selectFromTableSpring(trigger, CRN).length() > 0;
     }
 
 }
