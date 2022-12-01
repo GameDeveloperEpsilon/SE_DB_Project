@@ -25,7 +25,6 @@ public class DBHandler {
 
             String prefix = JOptionPane.showInputDialog(trigger, "Enter Subject Prefix");
             int courseNum = Integer.parseInt(JOptionPane.showInputDialog(trigger, "Enter Course Number"));
-            //int sectionNum = JOptionPane.showInputDialog(trigger, "Enter Section Number");
             char typeOfInst = JOptionPane.showInputDialog(trigger, "Enter Type of Institution").charAt(0);
             String creditHours = JOptionPane.showInputDialog(trigger,
                     "Enter Credit Hour Value as a four digit number without a decimal point");
@@ -50,6 +49,12 @@ public class DBHandler {
     }
 
     public String updateRecordInTableSpring(JFrame trigger, int CRN) {
+
+        if (!isCRNPresentInTableSpring(trigger, CRN)) {
+            JOptionPane.showMessageDialog(trigger, "Not Updated");
+            return "CRN Not Present";
+        }
+
         String url = String.format("jdbc:mysql://%s:%d/%s",
                 userFile.getServer(), userFile.getPort(), userFile.getDbName());
         String username = userFile.getUsername();
@@ -57,14 +62,17 @@ public class DBHandler {
         try (Connection con = DriverManager.getConnection(url, username, password);
              Statement statement = con.createStatement()) {
 
-            String select;
-            if (CRN == -1) {
-                select = "SELECT * FROM " + userFile.getDbName() +".spring;";
-            } else {
-                select = "SELECT * FROM " + userFile.getDbName() +".spring WHERE section_number=" + CRN + ';';
-            }
+            String prefix = JOptionPane.showInputDialog(trigger, "Enter Subject Prefix");
+            int courseNum = Integer.parseInt(JOptionPane.showInputDialog(trigger, "Enter Course Number"));
+            char typeOfInst = JOptionPane.showInputDialog(trigger, "Enter Type of Institution").charAt(0);
+            String creditHours = JOptionPane.showInputDialog(trigger,
+                    "Enter Credit Hour Value as a four digit number without a decimal point");
 
-            ResultSet resultSet = statement.executeQuery(select);
+            String UPDATE = String.format("UPDATE INTO %s.spring (Subject_Prefix, Course_Number, Section_Number, Type_Instruction, Semester_Credit_Hour_Value, Record_Code, Institution_Code, Location_Code, Other_Higher_Education_Site, Unused, Composite_Classes_Code, Unused2, Tenure, Off_Campus_Location, Instructor_Code, Responsibility_Factor, Students_NOT_affected_by_state_funding, Semester, Year, Students_Who_Exceed_State_Funding, Students_Whose_Developmental_SCH, Lower_Level_Affected_by_UG_Limit, Upper_Level_Affected_by_UG_Limit, Instruction_Mode, Inter_institutional_Identifier, Teaching_Load_Credit)\n" +
+                            "VALUES ('%s   ', '%d   ', '%d  ', '%s', '%s', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');",
+                    userFile.getDbName(), prefix, courseNum, CRN, typeOfInst, creditHours);
+            System.out.println(UPDATE);
+            statement.execute(UPDATE);
 
             return "Updated";
 
@@ -72,11 +80,20 @@ public class DBHandler {
             JOptionPane.showMessageDialog(trigger, "Could not connect to the database. " +
                     "Try changing the connection settings.");
             return "Not Updated";
+        } catch (NumberFormatException numberFormatException) {
+            JOptionPane.showMessageDialog(trigger, "One or More Fields Were Not Integers");
+            return "Not Updated";
         }
-        //JOptionPane.showMessageDialog(trigger, "Updated");
+
     }
 
     public String deleteRecordInTableSpring(JFrame trigger, int CRN) {
+
+        if (!isCRNPresentInTableSpring(trigger, CRN)) {
+            JOptionPane.showMessageDialog(trigger, "Not Deleted");
+            return "CRN Present";
+        }
+
         String url = String.format("jdbc:mysql://%s:%d/%s",
                 userFile.getServer(), userFile.getPort(), userFile.getDbName());
         String username = userFile.getUsername();
@@ -84,14 +101,17 @@ public class DBHandler {
         try (Connection con = DriverManager.getConnection(url, username, password);
              Statement statement = con.createStatement()) {
 
-            String select;
-            if (CRN == -1) {
-                select = "SELECT * FROM " + userFile.getDbName() +".spring;";
-            } else {
-                select = "SELECT * FROM " + userFile.getDbName() +".spring WHERE section_number=" + CRN + ';';
-            }
+            String prefix = JOptionPane.showInputDialog(trigger, "Enter Subject Prefix");
+            int courseNum = Integer.parseInt(JOptionPane.showInputDialog(trigger, "Enter Course Number"));
+            char typeOfInst = JOptionPane.showInputDialog(trigger, "Enter Type of Institution").charAt(0);
+            String creditHours = JOptionPane.showInputDialog(trigger,
+                    "Enter Credit Hour Value as a four digit number without a decimal point");
 
-            ResultSet resultSet = statement.executeQuery(select);
+            String DELETE = String.format("DELETE INTO %s.spring (Subject_Prefix, Course_Number, Section_Number, Type_Instruction, Semester_Credit_Hour_Value, Record_Code, Institution_Code, Location_Code, Other_Higher_Education_Site, Unused, Composite_Classes_Code, Unused2, Tenure, Off_Campus_Location, Instructor_Code, Responsibility_Factor, Students_NOT_affected_by_state_funding, Semester, Year, Students_Who_Exceed_State_Funding, Students_Whose_Developmental_SCH, Lower_Level_Affected_by_UG_Limit, Upper_Level_Affected_by_UG_Limit, Instruction_Mode, Inter_institutional_Identifier, Teaching_Load_Credit)\n" +
+                            "VALUES ('%s   ', '%d   ', '%d  ', '%s', '%s', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');",
+                    userFile.getDbName(), prefix, courseNum, CRN, typeOfInst, creditHours);
+            System.out.println(DELETE);
+            statement.execute(DELETE);
 
             return "Deleted";
 
@@ -99,8 +119,11 @@ public class DBHandler {
             JOptionPane.showMessageDialog(trigger, "Could not connect to the database. " +
                     "Try changing the connection settings.");
             return "Not Deleted";
+        } catch (NumberFormatException numberFormatException) {
+            JOptionPane.showMessageDialog(trigger, "One or More Fields Were Not Integers");
+            return "Not Deleted";
         }
-        //JOptionPane.showMessageDialog(trigger, "Deleted");
+
     }
 
     public String selectFromTableSpring(JFrame trigger, int CRN) {
