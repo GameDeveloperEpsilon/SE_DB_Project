@@ -27,13 +27,16 @@ public class DBHandler {
             int courseNum = Integer.parseInt(JOptionPane.showInputDialog(trigger, "Enter Course Number"));
             //int sectionNum = JOptionPane.showInputDialog(trigger, "Enter Section Number");
             char typeOfInst = JOptionPane.showInputDialog(trigger, "Enter Type of Institution").charAt(0);
-            int creditHours = Integer.parseInt(JOptionPane.showInputDialog(trigger,
-                    "Enter Credit Hour Value as a four digit number without a decimal point"));
+            String creditHours = JOptionPane.showInputDialog(trigger,
+                    "Enter Credit Hour Value as a four digit number without a decimal point");
 
-            //String INSERT = "INSERT INTO " + userFile.getDbName() + '.' + "spring ()";
-            //ResultSet resultSet = statement.executeQuery(INSERT);
+            String INSERT = String.format("INSERT INTO %s.spring (Subject_Prefix, Course_Number, Section_Number, Type_Instruction, Semester_Credit_Hour_Value, year)" +
+                            "VALUES ('%s', '%d', '%d', '%s', '%s', '', '');",
+                    userFile.getDbName(), prefix, courseNum, CRN, typeOfInst, creditHours);
+            System.out.println(INSERT);
+            ResultSet resultSet = statement.executeQuery(INSERT);
 
-            return "Inserted";
+            return "Inserted : " + resultSet.toString();
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(trigger, "Could not connect to the database. " +
