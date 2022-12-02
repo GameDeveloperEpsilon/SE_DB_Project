@@ -23,11 +23,23 @@ public class DBHandler {
         try (Connection con = DriverManager.getConnection(url, username, password);
              Statement statement = con.createStatement()) {
 
-            String prefix = JOptionPane.showInputDialog(trigger, "Enter Subject Prefix");
-            int courseNum = Integer.parseInt(JOptionPane.showInputDialog(trigger, "Enter Course Number"));
-            char typeOfInst = JOptionPane.showInputDialog(trigger, "Enter Type of Institution").charAt(0);
+            String prefix = JOptionPane.showInputDialog(trigger, "Enter Subject Prefix (4 Characters)");
+            if (prefix.length() != 4) {
+                return "Subject Prefix Too Long";
+            }
+            int courseNum = Integer.parseInt(JOptionPane.showInputDialog(trigger, "Enter Course Number (4 Characters)"));
+            if (String.valueOf(courseNum).length() != 4) {
+                return "Course Number Too Long";
+            }
+            String typeOfInst = JOptionPane.showInputDialog(trigger, "Enter Type of Institution");
+            if (typeOfInst.length() != 1) {
+                return "Type Of Instruction Too Long";
+            }
             String creditHours = JOptionPane.showInputDialog(trigger,
                     "Enter Credit Hour Value as a four digit number without a decimal point");
+            if (creditHours.length() != 4) {
+                return "Credit Hours Too Long";
+            }
 
             String INSERT = String.format("INSERT INTO %s.spring (Subject_Prefix, Course_Number, Section_Number, Type_Instruction, Semester_Credit_Hour_Value, Record_Code, Institution_Code, Location_Code, Other_Higher_Education_Site, Unused, Composite_Classes_Code, Unused2, Tenure, Off_Campus_Location, Instructor_Code, Responsibility_Factor, Students_NOT_affected_by_state_funding, Semester, Year, Students_Who_Exceed_State_Funding, Students_Whose_Developmental_SCH, Lower_Level_Affected_by_UG_Limit, Upper_Level_Affected_by_UG_Limit, Instruction_Mode, Inter_institutional_Identifier, Teaching_Load_Credit)\n" +
                             "VALUES ('%s   ', '%d   ', '%d  ', '%s', '%s', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');",
@@ -62,11 +74,23 @@ public class DBHandler {
         try (Connection con = DriverManager.getConnection(url, username, password);
              Statement statement = con.createStatement()) {
 
-            String prefix = JOptionPane.showInputDialog(trigger, "Enter Subject Prefix");
-            int courseNum = Integer.parseInt(JOptionPane.showInputDialog(trigger, "Enter Course Number"));
-            char typeOfInst = JOptionPane.showInputDialog(trigger, "Enter Type of Institution").charAt(0);
+            String prefix = JOptionPane.showInputDialog(trigger, "Enter Subject Prefix (4 Characters)");
+            if (prefix.length() != 4) {
+                return "Subject Prefix Too Long";
+            }
+            int courseNum = Integer.parseInt(JOptionPane.showInputDialog(trigger, "Enter Course Number (4 Characters)"));
+            if (String.valueOf(courseNum).length() != 4) {
+                return "Course Number Too Long";
+            }
+            String typeOfInst = JOptionPane.showInputDialog(trigger, "Enter Type of Institution");
+            if (typeOfInst.length() != 1) {
+                return "Type Of Instruction Too Long";
+            }
             String creditHours = JOptionPane.showInputDialog(trigger,
                     "Enter Credit Hour Value as a four digit number without a decimal point");
+            if (creditHours.length() != 4) {
+                return "Credit Hours Too Long";
+            }
 
             String UPDATE = String.format("""
                             UPDATE %s.spring

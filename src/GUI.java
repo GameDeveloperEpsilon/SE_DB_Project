@@ -88,6 +88,9 @@ public class GUI extends JFrame {
             int CRN = -1;  // Default Value
             try {
                  CRN = Integer.parseInt(CRNField.getText());
+                 if (String.valueOf(CRN).length() != 5) {
+                     return;
+                 }
             } catch (NumberFormatException ignored) {}
 
             switch (actionToExecute) {
