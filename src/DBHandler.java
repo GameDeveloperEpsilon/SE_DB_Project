@@ -103,15 +103,9 @@ public class DBHandler {
         try (Connection con = DriverManager.getConnection(url, username, password);
              Statement statement = con.createStatement()) {
 
-            String prefix = JOptionPane.showInputDialog(trigger, "Enter Subject Prefix");
-            int courseNum = Integer.parseInt(JOptionPane.showInputDialog(trigger, "Enter Course Number"));
-            char typeOfInst = JOptionPane.showInputDialog(trigger, "Enter Type of Institution").charAt(0);
-            String creditHours = JOptionPane.showInputDialog(trigger,
-                    "Enter Credit Hour Value as a four digit number without a decimal point");
-
-            String DELETE = String.format("DELETE INTO %s.spring (Subject_Prefix, Course_Number, Section_Number, Type_Instruction, Semester_Credit_Hour_Value, Record_Code, Institution_Code, Location_Code, Other_Higher_Education_Site, Unused, Composite_Classes_Code, Unused2, Tenure, Off_Campus_Location, Instructor_Code, Responsibility_Factor, Students_NOT_affected_by_state_funding, Semester, Year, Students_Who_Exceed_State_Funding, Students_Whose_Developmental_SCH, Lower_Level_Affected_by_UG_Limit, Upper_Level_Affected_by_UG_Limit, Instruction_Mode, Inter_institutional_Identifier, Teaching_Load_Credit)\n" +
-                            "VALUES ('%s   ', '%d   ', '%d  ', '%s', '%s', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');",
-                    userFile.getDbName(), prefix, courseNum, CRN, typeOfInst, creditHours);
+            String DELETE = String.format("DELETE FROM %s.spring\n" +
+                            "WHERE Section_Number='%s  ';",
+                    userFile.getDbName(), CRN);
             System.out.println(DELETE);
             statement.execute(DELETE);
 
